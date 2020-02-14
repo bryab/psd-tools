@@ -56,9 +56,9 @@ def blend(backdrop, image, offset, mode=None):
 def _blend_image(backdrop, source, blend_fn):
     from PIL import Image
     import numpy as np
-    Cb = np.asarray(backdrop.convert('RGB')).astype(np.float) / 255.
-    Cs = np.asarray(source.convert('RGB')).astype(np.float) / 255.
-    Ab = np.asarray(backdrop.getchannel('A')).astype(np.float) / 255.
+    Cb = np.asarray(backdrop.convert('RGB')).astype(np.float16) / 255.
+    Cs = np.asarray(source.convert('RGB')).astype(np.float16) / 255.
+    Ab = np.asarray(backdrop.getchannel('A')).astype(np.float16) / 255.
     Ab = np.expand_dims(Ab, axis=2)
     Cr = (1. - Ab) * Cs + Ab * blend_fn(Cs, Cb)
     result = Image.fromarray((Cr * 255).round().astype(np.uint8), mode='RGB')
